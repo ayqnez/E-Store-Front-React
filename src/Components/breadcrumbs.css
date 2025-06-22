@@ -1,0 +1,24 @@
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #999;
+    padding: 30px 160px;
+    background-color: white;
+    gap: 16px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #A4A4A4;
+}
+
+.breadcrumb .separator {
+    margin: 0 8px;
+    color: #ccc;
+}
+
+.breadcrumb .current {
+    color: #000;
+    font-weight: 600;
+}

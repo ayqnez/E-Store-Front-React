@@ -1,0 +1,50 @@
+.banner-hero {
+    background: url('/public/img/banner2.png');
+    background-size: cover;
+    background-position: center;
+    height: 448px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-overlay {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.banner-hero h1 {
+    font-size: 72px;
+    line-height: 72px;
+    font-weight: 100;
+    margin-bottom: 10px;
+}
+
+.banner-hero h1 strong {
+    font-weight: bold;
+    color: #fff;
+}
+
+.banner-hero p {
+    color: #787878;
+}
+
+.banner-hero button {
+    margin-top: 20px;
+    padding: 16px 52px;
+    font-size: 1rem;
+    border: 1px solid white;
+    color: #fff;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.banner-hero button:hover {
+    background-color: #fff;
+    color: #000;
+}

@@ -1,0 +1,79 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 100px auto;
+}
+
+.login-card {
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-card h1 {
+    margin-bottom: 24px;
+    color: #333;
+    font-size: 28px;
+}
+
+.login-card input {
+    width: 90%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: #211C24;
+    box-shadow: 0 0 5px rgba(79, 158, 249, 0.5);
+}
+
+.login-card button[type="submit"] {
+    width: 98%;
+    padding: 12px;
+    background-color: #211C24;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.login-card button[type="submit"]:hover {
+    background-color: #211C24;
+}
+
+.register-link {
+    margin-top: 20px;
+}
+
+.register-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.register-link button {
+    background: none;
+    border: none;
+    color: #211C24;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.register-link button:hover {
+    text-decoration: underline;
+}

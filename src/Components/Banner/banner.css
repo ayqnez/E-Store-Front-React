@@ -1,0 +1,48 @@
+.banner-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #211C24;
+    color: #fff;
+    padding-top: 60px;
+}
+
+.banner-content {
+    padding-left: 160px;
+}
+
+.banner-info {
+    font-weight: 100;
+    font-size: 96px;
+    margin: 0;
+    color: #fff;
+}
+
+.banner-btn {
+    margin-top: 20px;
+    padding: 16px 56px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.banner-btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.banner-logo {
+    padding-right: 160px;
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.banner-logo img {
+    max-height: 600px;
+    width: 400px;
+}
