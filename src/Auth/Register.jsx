@@ -63,6 +63,10 @@ function Register() {
                     />
                     <button type="submit">Submit</button>
                 </form>
+                <div className="login-link">
+                    <p>Do you have account?</p>
+                    <button onClick={() => navigate("/login")}>Log in</button>
+                </div>
             </div>
         </div>
     );

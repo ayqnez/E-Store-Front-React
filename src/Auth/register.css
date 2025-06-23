@@ -53,3 +53,27 @@
 .register-card button[type="submit"]:hover {
     background-color: #8d56db;
 }
+
+.login-link {
+    margin-top: 20px;
+}
+
+.login-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.login-link button {
+    background: none;
+    border: none;
+    color: #211C24;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.login-link button:hover {
+    text-decoration: underline;
+}

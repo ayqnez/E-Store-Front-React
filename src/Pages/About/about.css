@@ -1,0 +1,66 @@
+.about-page {
+    margin: 0 auto;
+}
+
+.about-hero {
+    text-align: center;
+    padding: 90px 0px;
+    background-color: #211C24;
+    margin-bottom: 40px;
+    color: #fff;
+}
+
+.about-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.about-hero p {
+    font-size: 1.2rem;
+}
+
+.about-content {
+    padding: 0px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.about-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+}
+
+.about-card h2 {
+    margin-bottom: 15px;
+}
+
+.about-card p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 5px 0px;
+}
+
+.about-contacts {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.about-contacts h2 {
+    margin-bottom: 20px;
+}
+
+.about-contacts p {
+    margin: 10px 0;
+}

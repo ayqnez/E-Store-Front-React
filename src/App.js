@@ -9,6 +9,9 @@ import CatalogPage from "./Pages/Catalog/CatalogPage";
 import ProductDetailsPage from "./Pages/ProductDetails/ProductDetailsPage";
 import CartPage from "./Pages/Cart/CartPage";
 import ProductsPage from "./Pages/Products/ProductsPage";
+import AboutPage from "./Pages/About/AboutPage";
+import UserProfilePage from "./Pages/UserProfile/UserProfilePage";
+import NotFound from "./Components/NotFound";
 
 function App() {
 
@@ -24,13 +27,17 @@ function App() {
           <Route path="/products/:category" element={<CatalogPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
 
+          <Route path="/about" element={<AboutPage />} />
+
           <Route path="/cart" element={<CartPage />} />
 
           <Route path="/profile" element={
             <PrivateRoute>
-              <UserProfile />
+              <UserProfilePage />
             </PrivateRoute>
           } />
+
+          <Route path="*" element={<NotFound />} />
 
           <Route path="/upload" element={<ImageUpload />} />
         </Routes>
