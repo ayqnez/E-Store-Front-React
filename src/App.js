@@ -4,7 +4,6 @@ import Login from "./Auth/Login";
 import PrivateRoute from "./Components/PrivateRoute";
 import Register from "./Auth/Register";
 import ImageUpload from "./Components/UploadPhoto";
-import UserProfile from "./Pages/UserProfile/UserProfile";
 import CatalogPage from "./Pages/Catalog/CatalogPage";
 import ProductDetailsPage from "./Pages/ProductDetails/ProductDetailsPage";
 import CartPage from "./Pages/Cart/CartPage";
@@ -12,6 +11,7 @@ import ProductsPage from "./Pages/Products/ProductsPage";
 import AboutPage from "./Pages/About/AboutPage";
 import UserProfilePage from "./Pages/UserProfile/UserProfilePage";
 import NotFound from "./Components/NotFound";
+import AddressPage from "./Pages/Steps/Address/AddressPage";
 
 function App() {
 
@@ -29,7 +29,15 @@ function App() {
 
           <Route path="/about" element={<AboutPage />} />
 
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart" element={<PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+          } />
+
+          <Route path="/address" element={<PrivateRoute>
+            <AddressPage />
+          </PrivateRoute>
+          } />
 
           <Route path="/profile" element={
             <PrivateRoute>
