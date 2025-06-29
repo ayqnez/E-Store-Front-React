@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
+
+
+import { GoHeartFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { addToFavorites, fetchFav, removeFromFavorites } from "../../Redux/Reducers/favoriteReducer";
 
 const batteryRanges = [
     { label: '3000–4000', min: 3000, max: 4000 },
@@ -10,6 +15,8 @@ const batteryRanges = [
 ];
 
 function CatalogItems({ category }) {
+    const dispatch = useDispatch();
+
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedBatteryRanges, setSelectedBatteryRanges] = useState([]);
 
@@ -24,11 +31,48 @@ function CatalogItems({ category }) {
         memory: false,
     });
 
+    const favorites = useSelector((state) => state.favorites.favorites)
+
     useEffect(() => {
         fetch(`http://localhost:8080/api/products/category?category=${category}`)
             .then(response => response.json())
             .then(data => setProducts(data));
     }, [category]);
+
+    useEffect(() => {
+        dispatch(fetchFav())
+    }, [dispatch])
+
+    async function handleToggleFavorite(product, isFav) {
+
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+            alert("You need to login");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/favorites/${product.id}?favorite=${!isFav}`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                if (isFav) {
+                    dispatch(removeFromFavorites(product.id));
+                } else {
+                    dispatch(addToFavorites(product));
+                }
+            } else {
+                console.error("Ошибка при переключении избранного:", response.status);
+            }
+        } catch (error) {
+            console.error("Сетевая ошибка:", error);
+        }
+    }
 
     function toggleDropdown(section) {
         setOpenSections(prev => ({
@@ -213,9 +257,22 @@ function CatalogItems({ category }) {
                     <div className="product-section">
                         {filteredProducts.map((product) => (
                             <div className="product-category" key={product.id}>
+                                <div
+                                    className={`favorite-icon ${favorites.some(fav => fav.id === product.id) ? 'isActive' : ''}`}
+                                    onClick={() => {
+                                        const isFav = favorites.some(fav => fav.id === product.id);
+                                        handleToggleFavorite(product, isFav);
+                                    }}
+                                    style={{ cursor: 'pointer' }}
+                                    title={favorites.some(fav => fav.id === product.id) ? 'Remove from favorites' : 'Add to favorites'}
+                                >
+                                    <GoHeartFill size={24} />
+                                </div>
+
                                 <Link to={`/product/${product.id}`}>
                                     <img src={`http://localhost:8080/uploads/images/${product.imageUrl}`} alt={product.name} />
                                 </Link>
+
                                 <div className="catalog-name">{product.name}</div>
                                 <div className="catalog-price">${product.price}</div>
                                 <button>Buy Now</button>

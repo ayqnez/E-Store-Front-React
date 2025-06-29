@@ -8,9 +8,12 @@ import {
     decrementQuantity,
     removeFromCart
 } from '../../Redux/Reducers/cartReducer';
+import { useNavigate } from 'react-router-dom';
 
 function Cart() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const cart = useSelector(state => state.cart.cartItems);
 
     useEffect(() => {
@@ -146,7 +149,7 @@ function Cart() {
                     </div>
                 </div>
 
-                <button className="checkout-btn">Checkout</button>
+                <button className="checkout-btn" onClick={() => navigate("/address")}>Checkout</button>
             </div>
         </div>
     );

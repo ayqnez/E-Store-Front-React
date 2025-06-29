@@ -17,28 +17,24 @@
 }
 
 .error-code {
-    font-size: 120px;
-    font-weight: 800;
+    height: 180px;
+    font-size: 200px;
     color: #ff4757;
-    line-height: 120px;
-    margin: 0px 0px 10px 0px;
-    background: linear-gradient(to right, #ff4757, #ff6b81);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 10px rgba(255, 71, 87, 0.2);
+    line-height: 100px;
+    margin: 0px;
 }
 
 .error-title {
     font-size: 40px;
     color: #2f3542;
-    margin: 0px 0px 15px 0px;
+    margin: 12px auto;
     font-weight: 700;
 }
 
 .error-message {
     font-size: 20px;
     color: #57606f;
-    margin: 0px 0px 30px 0px;
+    margin: 20px auto;
     line-height: 28px;
 }
 
