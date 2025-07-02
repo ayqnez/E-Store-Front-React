@@ -40,7 +40,11 @@ function Products() {
     }, [dispatch]);
 
     const handleShowMore = () => {
-        setVisibleCount(prev => prev + 4);
+        setVisibleCount(prev => Math.min(prev + 4, products.length));
+    };
+
+    const handleShowLess = () => {
+        setVisibleCount(prev => Math.max(prev - 4, 4));
     };
 
     return (
@@ -81,13 +85,19 @@ function Products() {
                 ))}
             </div>
 
-            {visibleCount < products.length && (
-                <div className="show-more-container" style={{ textAlign: 'center', marginTop: '1rem' }}>
+            <div className="show-more-container">
+                {visibleCount < products.length && (
                     <button className="show-more-button" onClick={handleShowMore}>
                         Show More
                     </button>
-                </div>
-            )}
+                )}
+
+                {visibleCount > 4 && (
+                    <button className="back-button" onClick={handleShowLess}>
+                        Back
+                    </button>
+                )}
+            </div>
         </>
     );
 }

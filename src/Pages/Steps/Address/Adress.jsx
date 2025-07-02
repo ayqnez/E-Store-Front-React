@@ -18,7 +18,14 @@ function Address() {
 
     return (
         <div className="address-page">
+
             <h1 className="address-title">Select Address</h1>
+
+            <div className="address-progress">
+                <div className="address-step address-step-active">Step 1</div>
+                <div className="address-step">Shipping</div>
+                <div className="address-step">Payment</div>
+            </div>
 
             <div className="address-options">
                 {addresses.map((addr) => (
@@ -30,19 +37,13 @@ function Address() {
                 ))}
             </div>
 
-            <div className="address-progress">
-                <div className="address-step address-step-active">Step 1</div>
-                <div className="address-step">Shipping</div>
-                <div className="address-step">Payment</div>
-            </div>
-
             <div className="address-divider"></div>
 
             <button className="address-add-button">Add New Address</button>
 
             <div className="address-navigation">
                 <button className="address-button address-back-button" onClick={() => navigate("/cart")}>Back</button>
-                <button className="address-button address-next-button">Next</button>
+                <button className="address-button address-next-button" onClick={() => navigate("/shipping")}>Next</button>
             </div>
         </div>
     );

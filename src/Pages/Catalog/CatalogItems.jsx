@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 
 import { GoHeartFill } from "react-icons/go";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { addToFavorites, fetchFav, removeFromFavorites } from "../../Redux/Reducers/favoriteReducer";
+import Pagination from "../../Components/Pagination";
 
 const batteryRanges = [
     { label: '3000–4000', min: 3000, max: 4000 },
@@ -16,6 +17,9 @@ const batteryRanges = [
 
 function CatalogItems({ category }) {
     const dispatch = useDispatch();
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 9;
 
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedBatteryRanges, setSelectedBatteryRanges] = useState([]);
@@ -96,7 +100,6 @@ function CatalogItems({ category }) {
         );
     }
 
-
     const filteredProducts = products.filter(product => {
         const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
 
@@ -110,6 +113,13 @@ function CatalogItems({ category }) {
         return matchBrand && matchBattery;
     });
 
+    const currentProducts = useMemo(() => {
+        const start = (currentPage - 1) * productsPerPage;
+        const end = start + productsPerPage;
+        return filteredProducts.slice(start, end);
+    }, [filteredProducts, currentPage]);
+
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     return (
         <>
@@ -255,10 +265,10 @@ function CatalogItems({ category }) {
                     </div>
 
                     <div className="product-section">
-                        {filteredProducts.map((product) => (
+                        {currentProducts.map((product) => (
                             <div className="product-category" key={product.id}>
                                 <div
-                                    className={`favorite-icon ${favorites.some(fav => fav.id === product.id) ? 'isActive' : ''}`}
+                                    className={`favorite-icon ${localStorage.getItem("jwtToken") ? favorites.some(fav => fav.id === product.id) ? 'isActive' : '' : false}`}
                                     onClick={() => {
                                         const isFav = favorites.some(fav => fav.id === product.id);
                                         handleToggleFavorite(product, isFav);
@@ -279,6 +289,7 @@ function CatalogItems({ category }) {
                             </div>
                         ))}
                     </div>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
             </div>
         </>

@@ -35,7 +35,7 @@ export const fetchAddresses = () => async (dispatch) => {
     }
 
     try {
-        const res = await fetch('http://localhost:8080/api/address/all', {
+        const res = await fetch('http://localhost:8080/api/address', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

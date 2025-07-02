@@ -12,12 +12,15 @@ import AboutPage from "./Pages/About/AboutPage";
 import UserProfilePage from "./Pages/UserProfile/UserProfilePage";
 import NotFound from "./Components/NotFound";
 import AddressPage from "./Pages/Steps/Address/AddressPage";
+import ShippingPage from "./Pages/Steps/Shipping/ShippingPage";
+import ScrollToTop from "./Components/ScrollToTop";
 
 function App() {
 
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
 
           <Route path="/login" element={<Login />} />
@@ -36,6 +39,11 @@ function App() {
 
           <Route path="/address" element={<PrivateRoute>
             <AddressPage />
+          </PrivateRoute>
+          } />
+
+          <Route path="/shipping" element={<PrivateRoute>
+            <ShippingPage />
           </PrivateRoute>
           } />
 

@@ -1,0 +1,100 @@
+.shipping-page {
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+.shipping-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.shipping-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.shipping-progress::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #e0e0e0;
+    z-index: 1;
+}
+
+.shipping-step {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    padding: 5px 10px;
+    border: 1px solid #666;
+    border-radius: 20px;
+    color: #666;
+}
+
+.shipping-step-active {
+    font-weight: bold;
+    border-color: #000;
+    color: #000;
+}
+
+.shipping-options {
+    border: 1px dashed #a9a9a9;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.shipping-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.shipping-option.active {
+    border: 2px solid black;
+}
+
+.shipping-label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.shipping-date {
+    color: #555;
+}
+
+.shipping-navigation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.shipping-button {
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.shipping-back-button {
+    background-color: white;
+    border: 1px solid #666;
+    color: #666;
+}
+
+.shipping-next-button {
+    background-color: #000;
+    border: 1px solid #000;
+    color: white;
+}

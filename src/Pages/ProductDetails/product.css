@@ -133,6 +133,12 @@
     border-color: #474747;
 }
 
+.add-c.out-of-stock {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
 .delivery-info {
     display: flex;
     gap: 32px;

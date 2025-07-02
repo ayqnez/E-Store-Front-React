@@ -44,8 +44,8 @@
 
 .products-container {
   padding: 30px 160px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 23px;
   margin-bottom: 50px;
 }
@@ -88,10 +88,22 @@
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: none;
 }
 
-.buy-button:hover {
+.in-stock {
+  color: white;
+}
+
+.in-stock:hover {
   background-color: #333;
+}
+
+.out-of-stock {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .favorite-icon {
@@ -134,6 +146,13 @@
   border-bottom: 2px solid black;
 }
 
+.show-more-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
 .show-more-button {
   background-color: #fff;
   color: #000;
@@ -147,16 +166,33 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.back-button {
+  background-color: #000;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #000;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #575757;
+  transform: translateY(-2px);
+}
+
 .show-more-button:hover {
   background-color: #999;
   transform: translateY(-2px);
 }
 
-.show-more-button:active {
+.back-button:active {
   transform: scale(0.98);
 }
 
-.show-more-container {
-  text-align: center;
-  margin-bottom: 40px;
+.show-more-button:active {
+  transform: scale(0.98);
 }

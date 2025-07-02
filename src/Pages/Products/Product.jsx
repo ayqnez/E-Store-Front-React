@@ -17,6 +17,8 @@ function Product({ product }) {
     const favorites = useSelector((state) => state.favorites.favorites)
     const isFavorite = token ? favorites.some(p => p.id === product.id) : false;
 
+    const isStock = product.stock > 0;
+
     useEffect(() => {
         dispatch(fetchFav())
     }, [dispatch])
@@ -69,7 +71,14 @@ function Product({ product }) {
             <div className="product-title">{product.name}</div>
             <div className="product-price">${product.price}</div>
 
-            <button className="buy-button" onClick={() => navigate(`/product/${product.id}`)}>Buy Now</button>
+            <button
+                className={`buy-button ${isStock ? 'in-stock' : 'out-of-stock'}`}
+                onClick={() => navigate(`/product/${product.id}`)}
+                disabled={!isStock}
+            >
+                {isStock ? 'Buy Now' : 'Out of Stock'}
+            </button>
+
         </div>
     );
 }

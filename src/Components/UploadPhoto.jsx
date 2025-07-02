@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ProductFormSeparate = () => {
+const UploadPhoto = () => {
   const [formData, setFormData] = useState({
     name: '',
     category: '',
@@ -15,7 +15,13 @@ const ProductFormSeparate = () => {
     mainCamera: '',
     frontCamera: '',
     batteryCapacity: '',
-    memory: [], // как список checkbox
+    memory: [],
+    caseSize: '',
+    strapMaterial: '',
+    hasCellular: false,
+    waterResistant: false,
+    gpsEnabled: false,
+    batteryLife: '',
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -25,7 +31,9 @@ const ProductFormSeparate = () => {
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    const val = type === 'checkbox' ? checked : value;
+    setFormData({ ...formData, [name]: val });
   };
 
   const handleMemoryChange = (value) => {
@@ -55,7 +63,7 @@ const ProductFormSeparate = () => {
       const res = await axios.post('/api/upload', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      return res.data; // путь к файлу
+      return res.data;
     } catch (err) {
       setMessage('Ошибка загрузки изображения');
       return null;
@@ -79,7 +87,9 @@ const ProductFormSeparate = () => {
       largeImageUrl: uploadedLargeImg,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock, 10),
+      batteryLife: formData.batteryLife ? parseInt(formData.batteryLife, 10) : null,
     };
+
 
     try {
       await axios.post('/api/products', productData);
@@ -98,6 +108,11 @@ const ProductFormSeparate = () => {
         frontCamera: '',
         batteryCapacity: '',
         memory: [],
+        caseSize: '',
+        strapMaterial: '',
+        hasCellular: false,
+        waterResistant: false,
+        gpsEnabled: false,
       });
       setImageFile(null);
       setLargeImageFile(null);
@@ -126,9 +141,10 @@ const ProductFormSeparate = () => {
         <input name="frontCamera" placeholder="Фронтальная камера" value={formData.frontCamera} onChange={handleChange} />
         <input name="batteryCapacity" placeholder="Батарея (мАч)" value={formData.batteryCapacity} onChange={handleChange} />
 
+
         <p>Память:</p>
         {['128GB', '256GB', '512GB', '1TB'].map(mem => (
-          <label key={mem}>
+          <label key={mem} style={{ display: 'block' }}>
             <input
               type="checkbox"
               checked={formData.memory.includes(mem)}
@@ -137,6 +153,58 @@ const ProductFormSeparate = () => {
             {mem}
           </label>
         ))}
+
+        <h4>Характеристики умных часов:</h4>
+        <input
+          name="caseSize"
+          placeholder="Размер корпуса (напр. 45 мм)"
+          value={formData.caseSize}
+          onChange={handleChange}
+        />
+        <input
+          name="strapMaterial"
+          placeholder="Материал ремешка"
+          value={formData.strapMaterial}
+          onChange={handleChange}
+        />
+
+        <label>
+          <input
+            type="checkbox"
+            name="hasCellular"
+            checked={formData.hasCellular}
+            onChange={handleChange}
+          />
+          eSIM (Cellular)
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="waterResistant"
+            checked={formData.waterResistant}
+            onChange={handleChange}
+          />
+          Водонепроницаемые
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="gpsEnabled"
+            checked={formData.gpsEnabled}
+            onChange={handleChange}
+          />
+          GPS
+        </label>
+
+        <input
+          name="batteryLife"
+          type="number"
+          placeholder="Время работы (часы)"
+          value={formData.batteryLife}
+          onChange={handleChange}
+        />
 
         <p>Главное изображение:</p>
         <input type="file" accept="image/*" onChange={handleImageChange} />
@@ -154,4 +222,4 @@ const ProductFormSeparate = () => {
   );
 };
 
-export default ProductFormSeparate;
+export default UploadPhoto;
