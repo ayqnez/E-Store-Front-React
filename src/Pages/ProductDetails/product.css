@@ -1,7 +1,7 @@
 .product-container {
-    padding: 120px 240px;
+    padding: 60px 250px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 60px;
 }
 
@@ -12,8 +12,6 @@
 
 .product-details {
     width: 536px;
-    height: 672px;
-    margin-top: -60px;
 }
 
 .product-content h6 {
@@ -44,12 +42,17 @@
     background: white;
     cursor: pointer;
     border-radius: 4px;
-    transition: 0.3;
+    transition: all 0.3s ease;
+}
+
+.product-memory button:hover {
+    color: #fff;
+    background-color: #ccc;
 }
 
 .product-memory button.active {
     background-color: #ccc;
-    color: white;
+    color: #fff;
 }
 
 
@@ -81,13 +84,6 @@
 
 .spec-value {
     font-weight: 500;
-}
-
-.product-text {
-    color: #6C6C6C;
-    font-weight: 400;
-    font-size: 14px;
-    padding: 18px 0px;
 }
 
 .product-buttons {
@@ -159,4 +155,47 @@
     font-size: 14px;
     color: #717171;
     line-height: 24px;
+}
+
+
+.product-info {
+    background-color: #FAFAFA;
+    padding: 40px 0;
+    ;
+}
+
+.product-info__content {
+    background-color: #fff;
+    max-width: 1130px;
+    margin: 0 auto;
+    padding: 30px 40px;
+}
+
+.scep {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CDCDCD;
+}
+
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-details {
+    padding: 12px 25px;
+    margin: 15px 0;
+    background-color: #fff;
+    color: #000;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-details:hover {
+    background-color: #000;
+    color: #fff;
 }

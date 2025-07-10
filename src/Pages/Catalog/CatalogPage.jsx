@@ -13,7 +13,7 @@ function CatalogPage() {
     return (
         <>
             <Header />
-            <Breadcrumps item={category} />
+            <Breadcrumps category={category} />
             <CatalogItems category={category} />
             <Footer />
         </>

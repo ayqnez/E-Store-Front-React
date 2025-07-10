@@ -5,7 +5,7 @@ import { GoHeartFill } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addToFavorites, fetchFav, removeFromFavorites } from "../../Redux/Reducers/favoriteReducer";
 import Pagination from "../../Components/Pagination";
 
@@ -14,8 +14,18 @@ const batteryRanges = [
     { label: '4001–5000', min: 4001, max: 5000 },
     { label: '5001–6000', min: 5001, max: 6000 }
 ];
+const screenTypes = ['OLED', 'AMOLED', 'LCD'];
+const memoryRanges = ['64GB', '128GB', '256GB', '1TB'];
+const brands = ['Apple', 'Samsung', 'Xiaomi', 'Google'];
+
+const screenSizes = [
+    { size: '6.0" - 6.5"', min: "6.0", max: "6.5" },
+    { size: '6.6" - 7.0"', min: "6.6", max: "7" },
+    { size: '7.1" +', min: "7.1", max: "9" }
+];
 
 function CatalogItems({ category }) {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +33,11 @@ function CatalogItems({ category }) {
 
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedBatteryRanges, setSelectedBatteryRanges] = useState([]);
+    const [selectedScreenTypes, setSelectedScreenTypes] = useState([]);
+    const [selectedMemory, setSelectedMemory] = useState([]);
+    const [selectedScreenSizes, setSelectedScreenSizes] = useState([]);
+
+    console.log(selectedScreenSizes)
 
     const [products, setProducts] = useState([]);
 
@@ -100,18 +115,62 @@ function CatalogItems({ category }) {
         );
     }
 
-    const filteredProducts = products.filter(product => {
-        const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+    function handleScreenTypeChange(type) {
+        setSelectedScreenTypes(prev =>
+            prev.includes(type)
+                ? prev.filter(t => t !== type)
+                : [...prev, type]
+        );
+    }
 
-        const matchBattery =
-            selectedBatteryRanges.length === 0 ||
-            selectedBatteryRanges.some(label => {
-                const range = batteryRanges.find(r => r.label === label);
-                return product.batteryCapacity >= range.min && product.batteryCapacity <= range.max;
-            });
+    function handleMemoryRangeChange(mem) {
+        setSelectedMemory(prev =>
+            prev.includes(mem)
+                ? prev.filter(m => m !== mem)
+                : [...prev, mem]
+        );
+    }
 
-        return matchBrand && matchBattery;
-    });
+    function handleScreenSizesChange(screen) {
+        setSelectedScreenSizes(prev =>
+            prev.includes(screen)
+                ? prev.filter(s => s !== screen)
+                : [...prev, screen]
+        );
+    }
+
+    const filteredProducts = useMemo(() => {
+        return products.filter(product => {
+            console.log(product)
+            const matchBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+            const matchScreenType = selectedScreenTypes.length === 0 || selectedScreenTypes.includes(product.screenType);
+
+            const matchMemoryRanges =
+                selectedMemory.length === 0 ||
+                selectedMemory.some(mem => {
+                    const memp = memoryRanges.find(m => m === mem);
+                    return product.memory.some(m => m === memp);
+                })
+
+            const matchBattery =
+                selectedBatteryRanges.length === 0 ||
+                selectedBatteryRanges.some(label => {
+                    const range = batteryRanges.find(r => r.label === label);
+                    return product.batteryCapacity >= range.min && product.batteryCapacity <= range.max;
+                });
+
+            const matchScreenSizes =
+                selectedScreenSizes.length === 0 ||
+                selectedScreenSizes.some(size => {
+                    const range = screenSizes.find(s => s.size === size);
+                    console.log(range)
+                    return product.screenSize >= range.min && product.screenSize <= range.max;
+                })
+
+            return matchBrand && matchBattery && matchScreenType && matchMemoryRanges && matchScreenSizes;
+        });
+    }, [products, selectedBrands, selectedBatteryRanges, selectedScreenTypes, selectedMemory, selectedScreenSizes]);
+
 
     const currentProducts = useMemo(() => {
         const start = (currentPage - 1) * productsPerPage;
@@ -139,7 +198,7 @@ function CatalogItems({ category }) {
                         </div>
                         {openSections.brand && (
                             <ul>
-                                {['Apple', 'Samsung', 'Xiaomi', 'Google'].map(brand => (
+                                {brands.map(brand => (
                                     <li key={brand}>
                                         <label>
                                             <input
@@ -147,6 +206,33 @@ function CatalogItems({ category }) {
                                                 checked={selectedBrands.includes(brand)}
                                                 onChange={() => handleBrandChange(brand)}
                                             /> {brand}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <div className="filter-section">
+                        <div className="filter-top" onClick={() => toggleDropdown("memory")}>
+                            <p>Built-in memory</p>
+                            <IoIosArrowDown
+                                style={{
+                                    transform: openSections.memory ? 'rotate(180deg)' : 'rotate(0deg)',
+                                    transition: 'transform 0.3s ease',
+                                }}
+                            />
+                        </div>
+                        {openSections.memory && (
+                            <ul>
+                                {memoryRanges.map(range => (
+                                    <li key={range}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedMemory.includes(range)}
+                                                onChange={() => handleMemoryRangeChange(range)}
+                                            /> {range}
                                         </label>
                                     </li>
                                 ))}
@@ -193,9 +279,17 @@ function CatalogItems({ category }) {
                         </div>
                         {openSections.screenType && (
                             <ul>
-                                <li><input type="checkbox" /> AMOLED</li>
-                                <li><input type="checkbox" /> LCD</li>
-                                <li><input type="checkbox" /> OLED</li>
+                                {screenTypes.map(type => (
+                                    <li key={type}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedScreenTypes.includes(type)}
+                                                onChange={() => handleScreenTypeChange(type)}
+                                            /> {type}
+                                        </label>
+                                    </li>
+                                ))}
                             </ul>
                         )}
                     </div>
@@ -212,50 +306,21 @@ function CatalogItems({ category }) {
                         </div>
                         {openSections.screenDiagonal && (
                             <ul>
-                                <li><input type="checkbox" /> 5.5″–6.0″</li>
-                                <li><input type="checkbox" /> 6.1″–6.5″</li>
-                                <li><input type="checkbox" /> 6.6″+</li>
+                                {screenSizes.map(screen => (
+                                    <li key={screen.size}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedScreenSizes.includes(screen.size)}
+                                                onChange={() => handleScreenSizesChange(screen.size)}
+                                            /> {screen.size}
+                                        </label>
+                                    </li>
+                                ))}
                             </ul>
                         )}
                     </div>
 
-                    <div className="filter-section">
-                        <div className="filter-top" onClick={() => toggleDropdown("protection")}>
-                            <p>Protection class</p>
-                            <IoIosArrowDown
-                                style={{
-                                    transform: openSections.protection ? 'rotate(180deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.3s ease',
-                                }}
-                            />
-                        </div>
-                        {openSections.protection && (
-                            <ul>
-                                <li><input type="checkbox" /> IP67</li>
-                                <li><input type="checkbox" /> IP68</li>
-                                <li><input type="checkbox" /> Gorilla Glass</li>
-                            </ul>
-                        )}
-                    </div>
-
-                    <div className="filter-section">
-                        <div className="filter-top" onClick={() => toggleDropdown("memory")}>
-                            <p>Built-in memory</p>
-                            <IoIosArrowDown
-                                style={{
-                                    transform: openSections.memory ? 'rotate(180deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.3s ease',
-                                }}
-                            />
-                        </div>
-                        {openSections.memory && (
-                            <ul>
-                                <li><input type="checkbox" /> 64 GB</li>
-                                <li><input type="checkbox" /> 128 GB</li>
-                                <li><input type="checkbox" /> 256 GB</li>
-                            </ul>
-                        )}
-                    </div>
                 </div>
 
                 <div className="catalog-products">
@@ -285,7 +350,7 @@ function CatalogItems({ category }) {
 
                                 <div className="catalog-name">{product.name}</div>
                                 <div className="catalog-price">${product.price}</div>
-                                <button>Buy Now</button>
+                                <button onClick={() => navigate(`/product/${product.id}`)}>Buy Now</button>
                             </div>
                         ))}
                     </div>
