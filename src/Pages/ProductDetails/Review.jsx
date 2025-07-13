@@ -1,5 +1,5 @@
 import './review.css';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const ProductReviews = ({ productId }) => {
     const [reviews, setReviews] = useState([]);
@@ -8,46 +8,58 @@ const ProductReviews = ({ productId }) => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(5);
 
-    useEffect(() => {
-        fetchReviews();
+    const fetchReviews = useCallback(async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/reviews/productReview/${productId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setReviews(data);
+                calculateStats(data);
+            }
+        } catch (error) {
+            console.error("Failed to fetch reviews:", error);
+        }
     }, [productId]);
 
-    async function fetchReviews() {
-        const response = await fetch(`http://localhost:8080/api/reviews/productReview/${productId}`);
-        if (response.ok) {
-            const data = await response.json();
-            setReviews(data);
-            calculateStats(data);
-        };
-    }
+    useEffect(() => {
+        fetchReviews();
+    }, [fetchReviews]);
 
-    async function handleSubmit() {
+    const handleSubmit = async () => {
         const jwtToken = localStorage.getItem("jwtToken");
 
         if (!jwtToken) {
             alert("You need to login");
+            return;
         }
 
         const review = {
             content: comment,
-            rating
-        }
+            rating,
+        };
 
-        const response = await fetch(`http://localhost:8080/api/reviews/addReview/${productId}`, {
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(review)
-        })
+        try {
+            const response = await fetch(`http://localhost:8080/api/reviews/addReview/${productId}`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(review)
+            });
 
-        if (response.ok) {
-            setComment('')
-            setRating(0);
-            fetchReviews();
+            if (response.ok) {
+                setComment('');
+                setRating(5);
+                fetchReviews();
+            } else {
+                const errorData = await response.json();
+                console.error("Failed to submit review:", errorData);
+            }
+        } catch (error) {
+            console.error("Error submitting review:", error);
         }
-    }
+    };
 
     const calculateStats = (data) => {
         const total = data.length;
@@ -74,7 +86,6 @@ const ProductReviews = ({ productId }) => {
             <h2>Reviews</h2>
 
             <div className="reviews-summary">
-
                 <div className="average-rating">
                     <h1>{average}</h1>
                     <p>of {reviews.length} reviews</p>
@@ -124,14 +135,12 @@ const ProductReviews = ({ productId }) => {
                 {reviews.map((review, index) => (
                     <div className="review-card" key={index}>
                         <div className="review-header">
-
                             <div className="review-author-block">
                                 <div className="review-author-name">{review.username}</div>
                                 <div className="review-stars">
                                     {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
                                 </div>
                             </div>
-
                             <div className="review-date">
                                 {new Date(review.createdAt).toLocaleDateString('en-US', {
                                     year: 'numeric',
@@ -139,13 +148,11 @@ const ProductReviews = ({ productId }) => {
                                     day: 'numeric'
                                 })}
                             </div>
-
                         </div>
                         <p className="review-text">{review.content}</p>
                     </div>
                 ))}
             </div>
-
         </div>
     );
 };

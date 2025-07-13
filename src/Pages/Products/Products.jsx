@@ -13,7 +13,7 @@ import Product from './Product';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchProducts, setProducts } from '../../Redux/Reducers/productsReducer';
+import { fetchProducts } from '../../Redux/Reducers/productsReducer';
 
 const categories = [
     { name: 'phones', icon: <IoPhonePortraitOutline /> },

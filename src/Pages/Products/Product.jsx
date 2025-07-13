@@ -2,14 +2,13 @@ import './products.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { GoHeartFill } from "react-icons/go";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addToFavorites, fetchFav, removeFromFavorites, setFavorites } from '../../Redux/Reducers/favoriteReducer';
+import { addToFavorites, fetchFav, removeFromFavorites } from '../../Redux/Reducers/favoriteReducer';
 
 function Product({ product }) {
     const token = localStorage.getItem('jwtToken');
-    const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
