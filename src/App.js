@@ -16,7 +16,6 @@ import ShippingPage from "./Pages/Steps/Shipping/ShippingPage";
 import ScrollToTop from "./Components/ScrollToTop";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>

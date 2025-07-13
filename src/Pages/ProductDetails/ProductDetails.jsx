@@ -225,6 +225,7 @@ function ProductDetails({ id }) {
             </div>
 
             <div className="product-info">
+                
                 <div className="product-info__content">
                     <h1>Details</h1>
 

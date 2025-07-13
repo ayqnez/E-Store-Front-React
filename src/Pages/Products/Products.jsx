@@ -31,21 +31,19 @@ function Products() {
     const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState('New Arrival');
-    const [visibleCount, setVisibleCount] = useState(4);
 
     const products = useSelector((state) => state.products.products);
+
+    const filteredProducts = products.filter((product) => {
+        if (activeTab === 'New Arrival') return product.isNewArrival;
+        if (activeTab === 'Bestseller') return product.isBestseller;
+        if (activeTab === 'Featured Products') return product.isFeatured;
+        return true;
+    })
 
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);
-
-    const handleShowMore = () => {
-        setVisibleCount(prev => Math.min(prev + 4, products.length));
-    };
-
-    const handleShowLess = () => {
-        setVisibleCount(prev => Math.max(prev - 4, 4));
-    };
 
     return (
         <>
@@ -80,23 +78,9 @@ function Products() {
             </div>
 
             <div className="products-container">
-                {products.slice(0, visibleCount).map((product) => (
+                {filteredProducts.slice(0, 4).map((product) => (
                     <Product product={product} key={product.id} />
                 ))}
-            </div>
-
-            <div className="show-more-container">
-                {visibleCount < products.length && (
-                    <button className="show-more-button" onClick={handleShowMore}>
-                        Show More
-                    </button>
-                )}
-
-                {visibleCount > 4 && (
-                    <button className="back-button" onClick={handleShowLess}>
-                        Back
-                    </button>
-                )}
             </div>
         </>
     );
